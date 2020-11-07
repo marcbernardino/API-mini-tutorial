@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--> Marc Bernardino
+            GIT418 final project
+            May 4th, 2020 (may the 4th be with you!)-->
+            
+        <!--> Links to jquery CDN and highlight js CDN and maptiler api stuff-->
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <meta charset="UTF-8">
+        <title> Geolocation Tutorial (API)</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+        <script src="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.js"></script>
+        <script src="https://cdn.maptiler.com/mapbox-gl-leaflet/latest/leaflet-mapbox-gl.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" />
+        <link rel="stylesheet" href="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.css" />
+    </head>
+    
+    <body>
+        <!--> This is the intro, it introduces geolocation and API to the reader-->
+        <section id="intro">
+            <h2>What is geolocation and how do it work with web browsers?</h2>
+            <p> Have you ever wondered how websites get your location when shopping online and you choose to locate a store? Well websites use geolocation to find a store. Geolocation is "the process or technique of indentifying the geographical location of a person or device by means of digital information through the internet." In short terms, when you agree to give the website your location, it gives them access to your gps and they're able to find the closest store(s) to wherever you're at.</p>
+            <p>Now that you know what geolocation is, lets get to how websites and companies around the globe implement this into what's below.</p>
+            <!-->Code is to place the map as a final example for users to refer to-->
+            <div id="map"></div>
+            <p><a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a></p>
+            <button type="button" id="btnMap" onclick="getPosition();">Click me!</button>
+        </section><hr>
+        
+        <section id="part1">
+            <h2>What are API's?</h2>
+            <p>An Application programming interface also known as API, is "a set of functions and procedures allowing the creation of applications that access the features or data of an operating system, application, or other service." In simple terms, an API lets you access the tools, procedures, etc. of another application so you can implement it into your own website or application.</p>
+            <p>Now that you have an idea on what API's are, lets get into this tutorial that will let you show a map with your users location on your website/application.</p>
+        </section><hr>
+        
+        <!-->Beginning of the tutorial, explains the first steps which is to create an empty space and style it-->
+        <section id="part2">
+            <h2>The Tutorial (HTML/CSS)</h2>
+            <p>The first step you want to do is copy and past the code below into the head of your website. This code links you to maptiler code that lets you use the maptiler API.</p>
+            <pre>
+                <code class="html" style="font-size: 12px;">
+                    &lt;meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" /&gt;
+                    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js">&lt;/script&gt;
+                    &lt;script src="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.js">&lt;/script&gt;
+                    &lt;script src="https://cdn.maptiler.com/mapbox-gl-leaflet/latest/leaflet-mapbox-gl.js"&gt;&lt;/script&gt;
+                    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css" /&gt;
+                    &lt;link rel="stylesheet" href="https://cdn.maptiler.com/mapbox-gl-js/v1.5.1/mapbox-gl.css" /&gt;
+                </code>
+            </pre>
+            
+            <p>Once you have that ready to go, you want to give the map a place to appear. If you don't do this you won't be able to see the map even if you code it correctly in your JS. For that, you want use an empty div (HTML) and give it an ID of map. You also want to add the additional code to give credit to maptiler. Use css to create an empty space for the map to fill it. Below is an example.</p>
+            <pre>
+                <code class="html">
+                    &lt;div id="map"&gt;&lt;/div&gt;
+                    &lt;p&gt;&lt;a href="https://www.maptiler.com/copyright/" target="_blank"&gt;© MapTiler&lt;/a&gt; 
+                    &lt;a href="https://www.openstreetmap.org/copyright" target="_blank"&gt;© OpenStreetMap contributors&lt;/a&gt;&lt;/p&gt;
+                </code>
+            </pre>
+            <pre>
+                <code class="css">
+                    #map {
+                    min-height: 250px;
+                    width: 500px;}
+                </code>
+            </pre>
+            
+            <!--> Give the user an example of the empty space that the map will fill-->
+            <div id="emptySpce"></div>
+            <button type="button" onclick="changeColor();">Click Me!</button>
+            <button type="button" onclick="changeBack();">Reset!</button>
+            
+            <p>Now that you have created an empty div and created space for the map to fill, you want to add a button that will run a function that will get the users location. A very important note when doing any sort of application or website that had to access the users location is since there can be a privacy concern, the website will always ask the user for permission. If the user denies access, the website won't run the function. This is done using an if else statement inside the function.</p>
+        </section><hr>
+        
+        <!--> Explains the meaning of the JS code and how geolocation works (lat and long)-->
+        <section id="part3">
+            <h2>The Tutorial (JS)</h2>
+            <p>With JS, you want to create a function that has an if else statement inside and link it to the function that actually gets the users location. (Hint: w3 schools template)</p>
+            <p>Once you have that, you want to create the function that is link to the if else statement function. Below is an example.</p>
+            <pre id="longCode">
+                <code>
+                    function mapPosition(position) {
+                    var coordsArray = [position.coords.latitude, position.coords.longitude];
+                    var map = L.map('map').setView(coordsArray, 14);
+                    var gl = L.mapboxGL({attribution: '
+                    <a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> 
+                    <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',accessToken: 'not-needed', 
+                    style: 'https://api.maptiler.com/maps/streets/style.json?key=qZjWTwtNTmBxDi3ZpTB5'}).addTo(map);
+                    var marker = L.marker(coordsArray).addTo(map);
+                }
+                </code>
+            </pre>
+            
+            <p>Lets break down the code that's above. The way geolocation works is that it uses the longitude and latitude of the users position. The variable "coordsArray" stores the users longitude and latitude. They are being stored by using built-in JS, which position is a devices positon and coords is coordinates.So you're telling the computer to get the devices position using coordinates with longitude and latitude. The variable "map" zooms out to 14 and the variable "gl" sets the copyright etc. Finally, the "marker" variable sets a physical marker on the users location.</p>
+        </section><hr>
+        
+        <section id="part4">
+            <h2>Conclusion</h2>
+            <p>You're done! You have now successfully integrated a map using a users location into your webpage using the maptiler API! See above for fully working map.</p>
+        </section><hr>
+        
+        <footer>This site is for academic purposes only. By Marc Bernardino. Some code provided by W3 Schools and by Arizona State University professors as templates.</footer>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/highlight.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.2/styles/arta.min.css">
+    <script>hljs.initHighlightingOnLoad();</script>    
+    <link rel="stylesheet" href="final.css">
+    <script src="final.js"></script>
+    </body>
+</html>

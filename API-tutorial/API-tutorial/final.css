@@ -1,0 +1,39 @@
+body {
+    background-color: bisque;
+    font-family: Verdana, sans-serif;
+    font-size: 13px;
+}
+
+#map {
+    min-height: 250px;
+    width: 500px;
+    margin-left: 425px;
+}
+
+hr {
+    max-width: 1000px;
+}
+
+#intro, #part1, #part2, #part3, #part4 {
+    margin: 50px;
+    text-align: center;
+}
+
+pre {
+    margin-right: 100px;
+}
+
+code {
+    max-width: 1000px;
+}
+
+#emptySpce {
+    min-height: 100px;
+    width: 100px;
+    margin-left: 620px;
+    margin-bottom: 20px;
+}
+
+footer {
+    text-align: center;
+}
